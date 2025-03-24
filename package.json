@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "This application allows user to create new product, update existing product and user is able to filter product by product id and able to sort it by productId, Product Name and Price.",
   "main": "index.js",
-  "scripts": { },
+  "scripts": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/dhruvdhaduk-simform/crud-ts.git"
@@ -22,5 +22,8 @@
   "bugs": {
     "url": "https://github.com/dhruvdhaduk-simform/crud-ts/issues"
   },
-  "homepage": "https://github.com/dhruvdhaduk-simform/crud-ts#readme"
+  "homepage": "https://github.com/dhruvdhaduk-simform/crud-ts#readme",
+  "devDependencies": {
+    "parcel": "^2.14.2"
+  }
 }
