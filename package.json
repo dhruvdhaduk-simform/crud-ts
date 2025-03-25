@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "parcel serve ./src/index.html --port 3000",
     "type-check": "tsc -b --noEmit",
-    "build": "npm run type-check && parcel build ./src/index.html"
+    "build": "npm run type-check && parcel build ./src/index.html",
+    "format": "prettier src --write"
   },
   "repository": {
     "type": "git",
@@ -29,6 +30,7 @@
   "homepage": "https://github.com/dhruvdhaduk-simform/crud-ts#readme",
   "devDependencies": {
     "parcel": "^2.14.2",
+    "prettier": "^3.5.3",
     "typescript": "^5.8.2"
   }
 }
