@@ -2,8 +2,12 @@
   "name": "crud-ts",
   "version": "1.0.0",
   "description": "This application allows user to create new product, update existing product and user is able to filter product by product id and able to sort it by productId, Product Name and Price.",
-  "main": "index.js",
-  "scripts": {},
+  "type": "module",
+  "scripts": {
+    "dev": "parcel serve ./src/index.html --port 3000",
+    "type-check": "tsc -b --noEmit",
+    "build": "npm run type-check && parcel build ./src/index.html"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/dhruvdhaduk-simform/crud-ts.git"
@@ -24,6 +28,7 @@
   },
   "homepage": "https://github.com/dhruvdhaduk-simform/crud-ts#readme",
   "devDependencies": {
-    "parcel": "^2.14.2"
+    "parcel": "^2.14.2",
+    "typescript": "^5.8.2"
   }
 }
