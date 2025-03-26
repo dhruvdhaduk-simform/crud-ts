@@ -1,3 +1,3 @@
-import { add } from './math.ts';
+const greet: string = 'Hello World from TypeScript';
 
-alert('This is from TypeScript : ' + add(100, 200));
+console.log(greet);
