@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "parcel serve ./src/index.html --port 3000",
     "type-check": "tsc -b --noEmit",
-    "build": "npm run type-check && parcel build ./src/index.html",
+    "lint": "eslint src --ext .ts",
+    "build": "npm run type-check && npm run lint && parcel build ./src/index.html",
     "format": "prettier src --write"
   },
   "repository": {
@@ -29,8 +30,12 @@
   },
   "homepage": "https://github.com/dhruvdhaduk-simform/crud-ts#readme",
   "devDependencies": {
+    "@eslint/js": "^9.23.0",
+    "eslint": "^9.23.0",
+    "globals": "^16.0.0",
     "parcel": "^2.14.2",
     "prettier": "^3.5.3",
-    "typescript": "^5.8.2"
+    "typescript": "^5.8.2",
+    "typescript-eslint": "^8.28.0"
   }
 }
