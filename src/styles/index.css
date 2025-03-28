@@ -10,3 +10,34 @@
     background-color: black;
     color: white;
 }
+
+body {
+    /* Make the page responsive for ultra-wide screen sizes. */
+    max-width: 90rem;
+    margin: auto;
+    padding: 2rem;
+}
+
+h1 {
+    text-align: center;
+}
+
+button {
+    background-color: white;
+    color: black;
+    border: none;
+    font-size: 1.25rem;
+    font-weight: bold;
+    padding: 0.5rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    user-select: none;
+}
+button:hover {
+    opacity: 0.9;
+}
+button:active {
+    opacity: 0.8;
+}

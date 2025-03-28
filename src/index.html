@@ -40,10 +40,169 @@
         <meta name="twitter:image:alt" content="Product Management" />
 
         <link rel="stylesheet" href="styles/index.css" />
+        <link rel="stylesheet" href="styles/table.css" />
+        <link rel="stylesheet" href="styles/control-buttons.css" />
+        <link rel="stylesheet" href="styles/add-user-form.css" />
 
         <script src="scripts/index.ts" type="module"></script>
     </head>
     <body>
-        <h1>Product Management App</h1>
+        <h1>User Management System</h1>
+
+        <div class="control-btns">
+            <!-- Sort Button and options -->
+            <div class="sort-container">
+                <span role="heading">Sort By</span>
+                <select name="sort-field" id="sort-field" aria-label="Sort Field">
+                    <option value="firstName">First Name</option>
+                    <option value="lastName">Last Name</option>
+                    <option value="age">Age</option>
+                </select>
+                <select name="sort-order" id="sort-order" aria-label="Sort Order">
+                    <option value="asc">Ascending</option>
+                    <option value="desc">Descending</option>
+                </select>
+
+                <button class="sort-btn">Sort</button>
+            </div>
+
+            <!-- Show the popup to Add User. -->
+            <button
+                class="add-user-btn"
+                popovertarget="add-user-popup"
+                popovertargetaction="show"
+
+            >
+                Add User
+            </button>
+        </div>
+
+        <!-- Add User Form Popup -->
+        <div id="add-user-popup" popover="auto">
+            <div class="add-user-form-container">
+                <h2>Add User</h2>
+                <form id="add-user-form" class="add-user-form">
+                    <div class="form-item">
+                        <label for="first-name">First Name</label>
+                        <input
+                            id="first-name"
+                            name="first-name"
+                            type="text"
+                            placeholder="Enter First Name"
+                            required
+                        />
+                    </div>
+                    <div class="form-item">
+                        <label for="last-name">Last Name</label>
+                        <input
+                            id="last-name"
+                            name="last-name"
+                            type="text"
+                            placeholder="Enter Last Name"
+                            required
+                        />
+                    </div>
+                    <div class="form-item">
+                        <label for="age">Age</label>
+                        <input
+                            id="age"
+                            name="age"
+                            type="number"
+                            placeholder="Enter Age"
+                            required
+                        />
+                    </div>
+                    <div class="form-item">
+                        <label for="email">Email</label>
+                        <input
+                            id="email"
+                            name="email"
+                            type="email"
+                            placeholder="Enter Email Address"
+                            required
+                        />
+                    </div>
+                    <div class="form-item">
+                        <label for="phone">Phone</label>
+                        <input
+                            id="phone"
+                            name="phone"
+                            type="tel"
+                            placeholder="Enter Phone Number"
+                            required
+                        />
+                    </div>
+                    <div class="form-item gender">
+                        <input
+                            id="male"
+                            name="gender"
+                            value="male"
+                            type="radio"
+                            required
+                        />
+                        <label for="male">Male</label>
+                        <input
+                            id="female"
+                            name="gender"
+                            value="female"
+                            type="radio"
+                            required
+                        />
+                        <label for="female">Female</label>
+                    </div>
+
+                    <button class="submit-btn">Submit</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Users Table -->
+        <div class="table-container">
+            <table class="users">
+                <thead>
+                    <tr>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Age</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Gender</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+
+                <tbody id="users-list">
+                    <tr>
+                        <td>Emily</td>
+                        <td>Johnson</td>
+                        <td>28</td>
+                        <td>emily.johnson@x.dummyjson.com</td>
+                        <td>+81 965-431-3024</td>
+                        <td>Female</td>
+                        <td>
+                            <button class="edit-btn">Edit</button>
+                        </td>
+                        <td>
+                            <button class="delete-btn">Delete</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Michael</td>
+                        <td>Williams</td>
+                        <td>35</td>
+                        <td>michael.williams@x.dummyjson.com</td>
+                        <td>+49 258-627-6644</td>
+                        <td>Male</td>
+                        <td>
+                            <button class="edit-btn">Edit</button>
+                        </td>
+                        <td>
+                            <button class="delete-btn">Delete</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </body>
 </html>
