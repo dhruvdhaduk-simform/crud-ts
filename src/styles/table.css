@@ -12,9 +12,9 @@ table.users {
     --table-items-border: 1.4px solid #ebedf2;
     --table-items-border-radius: 0.625rem;
     --table-btns-font-size: 0.9rem;
-    --table-edit-btn-bg-color: #0084ff;
+    --table-edit-btn-bg-color: blue;
     --table-edit-btn-fg-color: white;
-    --table-delete-btn-bg-color: #ff4545;
+    --table-delete-btn-bg-color: #b30000;
     --table-delete-btn-fg-color: white;
 }
 
