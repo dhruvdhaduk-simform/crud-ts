@@ -9,6 +9,16 @@
     box-shadow: 0 0 15px 1px white;
 }
 
+body:not(:has(#add-user-popup:popover-open)) {
+    transition-duration: 300ms;
+}
+
+body:has(#add-user-popup:popover-open) {
+    /* opacity: 0.5; */
+    filter: blur(5px);
+    transition-duration: 300ms;
+}
+
 .add-user-form-container {
     background-color: black;
     color: white;
