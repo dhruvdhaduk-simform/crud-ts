@@ -46,6 +46,31 @@
     <body>
         <h1>User Management System</h1>
 
+        <div class="control-btns">
+            <!-- Sort Button and options -->
+            <div class="sort-container">
+                <span>Sort By</span>
+                <select name="sort-field" id="sort-field">
+                    <option value="firstName">First Name</option>
+                    <option value="lastName">Last Name</option>
+                    <option value="age">Age</option>
+                </select>
+                <select name="sort-order" id="sort-order">
+                    <option value="asc">Ascending</option>
+                    <option value="desc">Descending</option>
+                </select>
+
+                <button class="sort-btn">Sort</button>
+            </div>
+
+            <!-- Show the popup to Add User. -->
+            <button
+                class="add-user-btn"
+            >
+                Add User
+            </button>
+        </div>
+
         <!-- Users Table -->
         <div class="table-container">
             <table class="users">
