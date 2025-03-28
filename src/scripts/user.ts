@@ -10,3 +10,17 @@ export default class User {
     ) {}
 }
 
+// Type predicate to validate User
+export function isUser(user: unknown): user is User {
+    return (
+        typeof user === 'object' &&
+        (typeof (user as User).id === 'string' ||
+            typeof (user as User).id === 'number') &&
+        typeof (user as User).firstName === 'string' &&
+        typeof (user as User).lastName === 'string' &&
+        typeof (user as User).age === 'number' &&
+        typeof (user as User).email === 'string' &&
+        typeof (user as User).phone === 'string' &&
+        ((user as User).gender === 'male' || (user as User).gender === 'female')
+    );
+}
