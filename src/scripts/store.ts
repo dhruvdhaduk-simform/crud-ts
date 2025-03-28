@@ -5,13 +5,18 @@ const USERS_URL = 'https://dummyjson.com/users';
 export default class Store {
     #users: User[];
     #localUsersKey: string;
+    #renderUsers: (users: User[]) => void;
 
-    constructor(localUsersKey: string) {
+    constructor(localUsersKey: string, renderUsers: (users: User[]) => void) {
         this.#localUsersKey = localUsersKey;
+        this.#renderUsers = renderUsers;
+
         this.#users = this.parseLocalUsers();
+        this.#renderUsers(this.#users);
 
         this.fetchUsers().then((users) => {
             this.#users.push(...users);
+            this.#renderUsers(this.#users);
         });
     }
 
