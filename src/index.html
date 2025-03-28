@@ -44,6 +44,55 @@
         <script src="scripts/index.ts" type="module"></script>
     </head>
     <body>
-        <h1>Product Management App</h1>
+        <h1>User Management System</h1>
+
+        <!-- Users Table -->
+        <div class="table-container">
+            <table class="users">
+                <thead>
+                    <tr>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Age</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Gender</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+
+                <tbody id="users-list">
+                    <tr>
+                        <td>Emily</td>
+                        <td>Johnson</td>
+                        <td>28</td>
+                        <td>emily.johnson@x.dummyjson.com</td>
+                        <td>+81 965-431-3024</td>
+                        <td>Female</td>
+                        <td>
+                            <button class="edit-btn">Edit</button>
+                        </td>
+                        <td>
+                            <button class="delete-btn">Delete</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Michael</td>
+                        <td>Williams</td>
+                        <td>35</td>
+                        <td>michael.williams@x.dummyjson.com</td>
+                        <td>+49 258-627-6644</td>
+                        <td>Male</td>
+                        <td>
+                            <button class="edit-btn">Edit</button>
+                        </td>
+                        <td>
+                            <button class="delete-btn">Delete</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </body>
 </html>
