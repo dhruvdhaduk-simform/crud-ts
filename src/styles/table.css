@@ -1,0 +1,70 @@
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+
+table.users {
+    --table-font-size: 1rem;
+    --table-margin-top: 3.75rem;
+    --table-border-spacing: 0 1rem;
+    --table-items-padding: 1rem;
+    --table-items-border: 1.4px solid #ebedf2;
+    --table-items-border-radius: 0.625rem;
+    --table-btns-font-size: 0.9rem;
+    --table-edit-btn-bg-color: #0084ff;
+    --table-edit-btn-fg-color: white;
+    --table-delete-btn-bg-color: #ff4545;
+    --table-delete-btn-fg-color: white;
+}
+
+.users {
+    width: 100%;
+    margin-top: var(--table-margin-top);
+    border-spacing: var(--table-border-spacing);
+    font-size: var(--table-font-size);
+}
+
+.users td {
+    padding: var(--table-items-padding);
+}
+
+.users tbody td {
+    border-top: var(--table-items-border);
+    border-bottom: var(--table-items-border);
+}
+.users tbody td:first-child {
+    border-top-left-radius: var(--table-items-border-radius);
+    border-bottom-left-radius: var(--table-items-border-radius);
+    border-left: var(--table-items-border);
+}
+.users tbody td:last-child {
+    border-top-right-radius: var(--table-items-border-radius);
+    border-bottom-right-radius: var(--table-items-border-radius);
+    border-right: var(--table-items-border);
+}
+
+.users th,
+.users td {
+    text-align: center;
+    text-wrap-mode: nowrap;
+}
+
+.edit-btn,
+.delete-btn {
+    font-size: var(--table-btns-font-size);
+}
+
+.edit-btn {
+    background-color: var(--table-edit-btn-bg-color);
+    color: var(--table-edit-btn-fg-color);
+    width: 5rem;
+}
+.edit-btn[value='save'] {
+    background-color: green;
+}
+
+.delete-btn {
+    background-color: var(--table-delete-btn-bg-color);
+    color: var(--table-delete-btn-fg-color);
+}
