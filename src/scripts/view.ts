@@ -22,6 +22,7 @@ export default class View {
         }
         this.#usersList = usersList;
 
+        // Select the form element for Add User.
         const addUserForm = document.querySelector(
             `#${elementIds.addUserFormId}`
         );
@@ -41,7 +42,9 @@ export default class View {
         this.#store = new Store(localUsersKey, this.renderUsers.bind(this));
     }
 
+    // Handle Add User form submit.
     handleAddUserFormSubmit() {
+        // Extract the form data.
         const firstNameInput = this.#addUserForm['first-name'].value;
         const lastNameInput = this.#addUserForm['last-name'].value;
         const ageInput = this.#addUserForm['age'].value;
@@ -49,6 +52,7 @@ export default class View {
         const phoneInput = this.#addUserForm['phone'].value;
         const genderInput = this.#addUserForm['gender'].value;
 
+        // Validate the form data.
         if (typeof firstNameInput !== 'string') {
             alert('Invalid First Name');
             return;
@@ -74,6 +78,7 @@ export default class View {
             return;
         }
 
+        // Store the form data with correct type.
         const firstName: string = firstNameInput;
         const lastName: string = lastNameInput;
         const age: number = Number(ageInput);
@@ -92,6 +97,7 @@ export default class View {
 
         this.#addUserForm.reset();
 
+        // Close the Form Popup.
         const popup = this.#addUserForm.closest('div[popover]');
         if (popup instanceof HTMLDivElement) {
             popup.hidePopover();
