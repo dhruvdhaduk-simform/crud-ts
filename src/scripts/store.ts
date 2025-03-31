@@ -45,17 +45,16 @@ export default class Store {
         }
 
         return users;
-
     }
 
     // Fetch locally stored users.
-    getLocalUsers(): Array<User>{
+    getLocalUsers(): Array<User> {
         try {
             const localUsersStr = localStorage.getItem(this.#localUsersKey);
             const localUsers = localUsersStr ? JSON.parse(localUsersStr) : [];
             return this.extractValidUser(localUsers);
         } catch (err) {
-            console.error("Error parsing local users:", err);
+            console.error('Error parsing local users:', err);
             return [];
         }
     }
@@ -76,5 +75,23 @@ export default class Store {
                 this.#users.filter((user) => typeof user.id === 'string')
             )
         );
+    }
+
+    addUser(user: Omit<User, 'id'>) {
+        this.#users.unshift(
+            new User(
+                crypto.randomUUID(),
+                user.firstName,
+                user.lastName,
+                user.age,
+                user.email,
+                user.phone,
+                user.gender
+            )
+        );
+
+        this.#renderUsers(this.#users);
+
+        this.saveLocalUsers();
     }
 }
