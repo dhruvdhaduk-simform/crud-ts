@@ -38,7 +38,7 @@
     align-items: center;
     flex-wrap: wrap;
 
-    padding: 1rem;
+    padding-bottom: 1rem;
 }
 
 .control-btns .sort-btn {
