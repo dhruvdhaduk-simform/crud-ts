@@ -8,6 +8,7 @@ export default class View {
 
     constructor(
         localUsersKey: string,
+        deletedUsersKey: string,
         elementIds: {
             usersListId: string;
             addUserFormId: string;
@@ -39,7 +40,11 @@ export default class View {
         });
 
         // Initialize the User Store.
-        this.#store = new Store(localUsersKey, this.renderUsers.bind(this));
+        this.#store = new Store(
+            localUsersKey,
+            deletedUsersKey,
+            this.renderUsers.bind(this)
+        );
     }
 
     // Handle Add User form submit.
@@ -164,6 +169,10 @@ export default class View {
                 deleteCell,
             ]
         );
+
+        deleteBtn.addEventListener('click', () => {
+            this.#store.deleteUser(user.id);
+        });
 
         return userRow;
     }
