@@ -53,12 +53,20 @@
             <!-- Sort Button and options -->
             <div class="sort-container">
                 <span role="heading">Sort By</span>
-                <select name="sort-field" id="sort-field" aria-label="Sort Field">
+                <select
+                    name="sort-field"
+                    id="sort-field"
+                    aria-label="Sort Field"
+                >
                     <option value="firstName">First Name</option>
                     <option value="lastName">Last Name</option>
                     <option value="age">Age</option>
                 </select>
-                <select name="sort-order" id="sort-order" aria-label="Sort Order">
+                <select
+                    name="sort-order"
+                    id="sort-order"
+                    aria-label="Sort Order"
+                >
                     <option value="asc">Ascending</option>
                     <option value="desc">Descending</option>
                 </select>
@@ -71,7 +79,6 @@
                 class="add-user-btn"
                 popovertarget="add-user-popup"
                 popovertargetaction="show"
-
             >
                 Add User
             </button>
@@ -172,36 +179,7 @@
                     </tr>
                 </thead>
 
-                <tbody id="users-list">
-                    <tr>
-                        <td>Emily</td>
-                        <td>Johnson</td>
-                        <td>28</td>
-                        <td>emily.johnson@x.dummyjson.com</td>
-                        <td>+81 965-431-3024</td>
-                        <td>Female</td>
-                        <td>
-                            <button class="edit-btn">Edit</button>
-                        </td>
-                        <td>
-                            <button class="delete-btn">Delete</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Michael</td>
-                        <td>Williams</td>
-                        <td>35</td>
-                        <td>michael.williams@x.dummyjson.com</td>
-                        <td>+49 258-627-6644</td>
-                        <td>Male</td>
-                        <td>
-                            <button class="edit-btn">Edit</button>
-                        </td>
-                        <td>
-                            <button class="delete-btn">Delete</button>
-                        </td>
-                    </tr>
-                </tbody>
+                <tbody id="users-list"></tbody>
             </table>
         </div>
     </body>
