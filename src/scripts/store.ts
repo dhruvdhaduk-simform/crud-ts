@@ -14,7 +14,7 @@ export default class Store {
         this.#localUsersKey = localUsersKey;
         this.#renderUsers = renderUsers;
 
-        this.#users = this.parseLocalUsers();
+        this.#users = this.getLocalUsers();
         this.#renderUsers(this.#users);
 
         this.fetchUsers().then((users) => {
@@ -24,7 +24,7 @@ export default class Store {
     }
 
     // Fetch locally stored users.
-    parseLocalUsers(): Array<User> {
+    getLocalUsers(): Array<User> {
         let localUsers: unknown;
         try {
             const localUsersStr = localStorage.getItem(this.#localUsersKey);
