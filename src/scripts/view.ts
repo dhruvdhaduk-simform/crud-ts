@@ -93,15 +93,20 @@ export default class View {
     // Render users in table from User[] array.
     renderUsers(users: Array<User>) {
         // Array to hold rows corresponding to each User.
-        const userRows: HTMLTableRowElement[] = [];
+        const rowsToRender: HTMLTableRowElement[] = [];
+        const rowsRendered: NodeListOf<HTMLTableRowElement> =
+            document.querySelectorAll('tr[data-id]');
+        const existingRows = new Map<string, HTMLTableRowElement>();
+
+        rowsRendered.forEach((row) => {
+            if (row.dataset.id) existingRows.set(row.dataset.id, row);
+        });
 
         users.forEach((user) => {
             // Check if there is already a Row for user.
-            const userRowExisting = document.querySelector(
-                `tr[data-id="${user.id}"]`
-            );
-            if (userRowExisting instanceof HTMLTableRowElement) {
-                userRows.push(userRowExisting);
+            const cachedRow = existingRows.get(`${user.id}`);
+            if (cachedRow) {
+                rowsToRender.push(cachedRow);
                 return;
             }
 
@@ -109,12 +114,12 @@ export default class View {
             const userRow = this.createUserRow(user);
 
             // Push the rows in array.
-            userRows.push(userRow);
+            rowsToRender.push(userRow);
         });
 
         // Clear the previously rendered users.
         this.#usersList.innerHTML = '';
         // Add users to table from array.
-        this.#usersList.append(...userRows);
+        this.#usersList.append(...rowsToRender);
     }
 }
