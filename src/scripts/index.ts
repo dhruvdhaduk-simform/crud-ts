@@ -8,6 +8,9 @@ const DELETED_USERS_KEY = 'DELETED_USERS_KEY';
 const viewConfig = {
     usersListId: 'users-list',
     addUserFormId: 'add-user-form',
+    sortBtnId: 'sort-btn',
+    sortFieldSelectId: 'sort-field',
+    sortOrderSelectId: 'sort-order',
 };
 
 new View(LOCAL_USERS_KEY, DELETED_USERS_KEY, viewConfig);

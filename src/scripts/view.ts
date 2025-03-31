@@ -5,6 +5,9 @@ export default class View {
     #store: Store;
     #usersList: HTMLTableSectionElement;
     #addUserForm: HTMLFormElement;
+    #sortBtn: HTMLButtonElement;
+    #sortFieldSelect: HTMLSelectElement;
+    #sortOrderSelect: HTMLSelectElement;
 
     constructor(
         localUsersKey: string,
@@ -12,6 +15,9 @@ export default class View {
         elementIds: {
             usersListId: string;
             addUserFormId: string;
+            sortBtnId: string;
+            sortFieldSelectId: string;
+            sortOrderSelectId: string;
         }
     ) {
         // Select the body of users table.
@@ -37,6 +43,37 @@ export default class View {
         this.#addUserForm.addEventListener('submit', (e) => {
             e.preventDefault();
             this.handleAddUserFormSubmit();
+        });
+
+        // Select sort button.
+        const sortBtn = document.querySelector(`#${elementIds.sortBtnId}`);
+        if (!(sortBtn instanceof HTMLButtonElement)) {
+            const msg = "Couldn't find Sort button on this page.";
+            alert(msg);
+            throw new ReferenceError(msg);
+        }
+        this.#sortBtn = sortBtn;
+
+        // Select sort options selectors.
+        const sortFieldSelect = document.querySelector(
+            `#${elementIds.sortFieldSelectId}`
+        );
+        const sortOrderSelect = document.querySelector(
+            `#${elementIds.sortOrderSelectId}`
+        );
+        if (
+            !(sortFieldSelect instanceof HTMLSelectElement) ||
+            !(sortOrderSelect instanceof HTMLSelectElement)
+        ) {
+            const msg = "Couldn't find the Sort Options Selector on this page.";
+            throw new ReferenceError(msg);
+        }
+        this.#sortFieldSelect = sortFieldSelect;
+        this.#sortOrderSelect = sortOrderSelect;
+
+        // Attach event listener to sort button.
+        this.#sortBtn.addEventListener('click', () => {
+            this.sort();
         });
 
         // Initialize the User Store.
@@ -271,5 +308,23 @@ export default class View {
         this.#usersList.innerHTML = '';
         // Add users to table from array.
         this.#usersList.append(...rowsToRender);
+    }
+
+    // Handle the sorting.
+    sort() {
+        const field: string = this.#sortFieldSelect.value;
+        const order: string = this.#sortOrderSelect.value;
+
+        if (field !== 'firstName' && field !== 'lastName' && field !== 'age') {
+            alert('Invalid Sorting field.');
+            return;
+        }
+
+        if (order !== 'asc' && order !== 'desc') {
+            alert('Invalid Sorting order.');
+            return;
+        }
+
+        this.#store.sort(field, order);
     }
 }
