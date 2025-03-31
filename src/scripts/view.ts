@@ -2,15 +2,15 @@ import User from './user.ts';
 import Store from './store.ts';
 
 export default class View {
-    // Ignoring eslint error of unused variable. (Will be used in future.)
-    // eslint-disable-next-line
     #store: Store;
     #usersList: HTMLTableSectionElement;
+    #addUserForm: HTMLFormElement;
 
     constructor(
         localUsersKey: string,
         elementIds: {
             usersListId: string;
+            addUserFormId: string;
         }
     ) {
         // Select the body of users table.
@@ -22,8 +22,80 @@ export default class View {
         }
         this.#usersList = usersList;
 
+        const addUserForm = document.querySelector(
+            `#${elementIds.addUserFormId}`
+        );
+        if (!(addUserForm instanceof HTMLFormElement)) {
+            const msg = "Couldn't find the Add User Form on this page.";
+            alert(msg);
+            throw new ReferenceError(msg);
+        }
+        this.#addUserForm = addUserForm;
+
+        this.#addUserForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            this.handleAddUserFormSubmit();
+        });
+
         // Initialize the User Store.
         this.#store = new Store(localUsersKey, this.renderUsers.bind(this));
+    }
+
+    handleAddUserFormSubmit() {
+        const firstNameInput = this.#addUserForm['first-name'].value;
+        const lastNameInput = this.#addUserForm['last-name'].value;
+        const ageInput = this.#addUserForm['age'].value;
+        const emailInput = this.#addUserForm['email'].value;
+        const phoneInput = this.#addUserForm['phone'].value;
+        const genderInput = this.#addUserForm['gender'].value;
+
+        if (typeof firstNameInput !== 'string') {
+            alert('Invalid First Name');
+            return;
+        }
+        if (typeof lastNameInput !== 'string') {
+            alert('Invlid Last Name');
+            return;
+        }
+        if (!isFinite(Number(ageInput))) {
+            alert('Invalid Age');
+            return;
+        }
+        if (typeof emailInput !== 'string') {
+            alert('Invalid Email');
+            return;
+        }
+        if (typeof phoneInput !== 'string') {
+            alert('Invalid Phone Number');
+            return;
+        }
+        if (genderInput !== 'male' && genderInput !== 'female') {
+            alert('Invalid Gender');
+            return;
+        }
+
+        const firstName: string = firstNameInput;
+        const lastName: string = lastNameInput;
+        const age: number = Number(ageInput);
+        const email: string = emailInput;
+        const phone: string = phoneInput;
+        const gender: 'male' | 'female' = genderInput;
+
+        this.#store.addUser({
+            firstName,
+            lastName,
+            age,
+            email,
+            phone,
+            gender,
+        });
+
+        this.#addUserForm.reset();
+
+        const popup = this.#addUserForm.closest('div[popover]');
+        if (popup instanceof HTMLDivElement) {
+            popup.hidePopover();
+        }
     }
 
     createElements(tagName: string, count: number): Array<HTMLElement> {
