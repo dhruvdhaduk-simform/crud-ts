@@ -49,18 +49,15 @@ export default class Store {
     }
 
     // Fetch locally stored users.
-    getLocalUsers(): Array<User> {
-        let localUsers: unknown;
+    getLocalUsers(): Array<User>{
         try {
             const localUsersStr = localStorage.getItem(this.#localUsersKey);
-            if (localUsersStr) {
-                localUsers = JSON.parse(localUsersStr);
-            }
+            const localUsers = localUsersStr ? JSON.parse(localUsersStr) : [];
+            return this.extractValidUser(localUsers);
         } catch (err) {
-            console.log(err);
+            console.error("Error parsing local users:", err);
+            return [];
         }
-
-        return this.extractValidUser(localUsers);
     }
 
     // Fetch users from API.
