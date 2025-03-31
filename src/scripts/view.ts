@@ -26,6 +26,70 @@ export default class View {
         this.#store = new Store(localUsersKey, this.renderUsers.bind(this));
     }
 
+    createElements(tagName: string, count: number): Array<HTMLElement> {
+        const elements: Array<HTMLElement> = [];
+
+        for (let i = 0; i < count; i++) {
+            elements.push(document.createElement(tagName));
+        }
+
+        return elements;
+    }
+
+    createUserRow(user: User) {
+        // Create a new raw for user with its child elements.
+        const userRow = document.createElement('tr');
+
+        const [
+            firstNameCell,
+            lastNameCell,
+            ageCell,
+            emailCell,
+            phoneCell,
+            genderCell,
+            editCell,
+            deleteCell,
+        ] = this.createElements('td', 8) as Array<HTMLTableCellElement>;
+
+        const [editBtn, deleteBtn] = this.createElements(
+            'button',
+            2
+        ) as Array<HTMLButtonElement>;
+
+        // Fill the row with user's data.
+        firstNameCell.textContent = user.firstName;
+        lastNameCell.textContent = user.lastName;
+        ageCell.textContent = `${user.age}`;
+        emailCell.textContent = user.email;
+        phoneCell.textContent = user.phone;
+        genderCell.textContent = user.gender;
+
+        editBtn.textContent = 'Edit';
+        editBtn.classList.add('edit-btn');
+        deleteBtn.textContent = 'Delete';
+        deleteBtn.classList.add('delete-btn');
+
+        userRow.dataset.id = `${user.id}`;
+
+        // Append the child element to row.
+        editCell.append(editBtn);
+        deleteCell.append(deleteBtn);
+        userRow.append(
+            ...[
+                firstNameCell,
+                lastNameCell,
+                ageCell,
+                emailCell,
+                phoneCell,
+                genderCell,
+                editCell,
+                deleteCell,
+            ]
+        );
+
+        return userRow;
+    }
+
     // Render users in table from User[] array.
     renderUsers(users: Array<User>) {
         // Array to hold rows corresponding to each User.
@@ -42,50 +106,7 @@ export default class View {
             }
 
             // Create a new raw for user with its child elements.
-            const userRow = document.createElement('tr');
-
-            const firstNameTD = document.createElement('td');
-            const lastNameTD = document.createElement('td');
-            const ageTD = document.createElement('td');
-            const emailTD = document.createElement('td');
-            const phoneTD = document.createElement('td');
-            const genderTD = document.createElement('td');
-            const editTD = document.createElement('td');
-            const deleteTD = document.createElement('td');
-
-            const editBtn = document.createElement('button');
-            const deleteBtn = document.createElement('button');
-
-            // Fill the row with user's data.
-            firstNameTD.textContent = user.firstName;
-            lastNameTD.textContent = user.lastName;
-            ageTD.textContent = `${user.age}`;
-            emailTD.textContent = user.email;
-            phoneTD.textContent = user.phone;
-            genderTD.textContent = user.gender;
-
-            editBtn.textContent = 'Edit';
-            editBtn.classList.add('edit-btn');
-            deleteBtn.textContent = 'Delete';
-            deleteBtn.classList.add('delete-btn');
-
-            userRow.dataset.id = `${user.id}`;
-
-            // Append the child element to row.
-            editTD.append(editBtn);
-            deleteTD.append(deleteBtn);
-            userRow.append(
-                ...[
-                    firstNameTD,
-                    lastNameTD,
-                    ageTD,
-                    emailTD,
-                    phoneTD,
-                    genderTD,
-                    editTD,
-                    deleteTD,
-                ]
-            );
+            const userRow = this.createUserRow(user);
 
             // Push the rows in array.
             userRows.push(userRow);
