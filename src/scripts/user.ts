@@ -1,3 +1,6 @@
+/**
+ * Represents the User entity.
+ */
 export default class User {
     constructor(
         public id: string | number,
@@ -10,7 +13,11 @@ export default class User {
     ) {}
 }
 
-// Type predicate to validate User
+/**
+ *
+ * @param {unknown} user - The object to validate.
+ * @returns (user is User) - Returns true if the object is a valid User, otherwise false.
+ */
 export function isValidUser(user: unknown): user is User {
     return (
         typeof user === 'object' &&
