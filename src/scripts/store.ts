@@ -162,4 +162,20 @@ export default class Store {
             this.saveLocalUsers();
         }
     }
+
+    sort(attribute: 'firstName' | 'lastName' | 'age', order: 'asc' | 'desc') {
+        this.#users.sort((a, b) => {
+            let result = 0;
+            if (attribute === 'age') {
+                result = a[attribute] - b[attribute];
+            } else {
+                result = a[attribute].localeCompare(b[attribute]);
+            }
+
+            if (order === 'desc') return -1 * result;
+            return result;
+        });
+
+        this.#renderUsers(this.#users);
+    }
 }
