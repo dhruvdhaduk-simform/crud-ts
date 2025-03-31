@@ -23,6 +23,31 @@ export default class Store {
         });
     }
 
+    // Extract valid user from unknown Array.
+    extractValidUser(usersUnknown: unknown): Array<User> {
+        const users: Array<User> = [];
+        if (Array.isArray(usersUnknown)) {
+            usersUnknown.forEach((user: unknown) => {
+                if (isValidUser(user)) {
+                    users.push(
+                        new User(
+                            user.id,
+                            user.firstName,
+                            user.lastName,
+                            user.age,
+                            user.email,
+                            user.phone,
+                            user.gender
+                        )
+                    );
+                }
+            });
+        }
+
+        return users;
+
+    }
+
     // Fetch locally stored users.
     getLocalUsers(): Array<User> {
         let localUsers: unknown;
@@ -35,26 +60,7 @@ export default class Store {
             console.log(err);
         }
 
-        const users: Array<User> = [];
-        if (Array.isArray(localUsers)) {
-            localUsers.forEach((user: unknown) => {
-                if (isValidUser(user)) {
-                    users.push(
-                        new User(
-                            user.id,
-                            user.firstName,
-                            user.lastName,
-                            user.age,
-                            user.email,
-                            user.phone,
-                            user.gender
-                        )
-                    );
-                }
-            });
-        }
-
-        return users;
+        return this.extractValidUser(localUsers);
     }
 
     // Fetch users from API.
@@ -62,27 +68,7 @@ export default class Store {
         const response = await fetch(USERS_URL);
         const data: { users: unknown } = await response.json();
 
-        const users: Array<User> = [];
-
-        if (Array.isArray(data?.users)) {
-            data.users.forEach((user: unknown) => {
-                if (isValidUser(user)) {
-                    users.push(
-                        new User(
-                            user.id,
-                            user.firstName,
-                            user.lastName,
-                            user.age,
-                            user.email,
-                            user.phone,
-                            user.gender
-                        )
-                    );
-                }
-            });
-        }
-
-        return users;
+        return this.extractValidUser(data?.users);
     }
 
     // Update localStorage to store all local users.
