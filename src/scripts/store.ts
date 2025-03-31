@@ -5,16 +5,23 @@ const USERS_URL = 'https://dummyjson.com/users';
 export default class Store {
     #users: Array<User>;
     #localUsersKey: string;
+    #deletedUsersKey: string;
+    #deletedUsers: number[];
+
     #renderUsers: (users: Array<User>) => void;
 
     constructor(
         localUsersKey: string,
+        deletedUsersKey: string,
         renderUsers: (users: Array<User>) => void
     ) {
         this.#localUsersKey = localUsersKey;
+        this.#deletedUsersKey = deletedUsersKey;
         this.#renderUsers = renderUsers;
 
+        this.#deletedUsers = this.getDeletedUsers();
         this.#users = this.getLocalUsers();
+
         this.#renderUsers(this.#users);
 
         this.fetchUsers().then((users) => {
@@ -23,23 +30,54 @@ export default class Store {
         });
     }
 
+    getDeletedUsers(): number[] {
+        let storedDeletedUsers: unknown;
+        try {
+            const storedDeletedUsersStr = localStorage.getItem(
+                this.#deletedUsersKey
+            );
+            if (storedDeletedUsersStr) {
+                storedDeletedUsers = JSON.parse(storedDeletedUsersStr);
+            }
+        } catch (err) {
+            console.log(err);
+        }
+
+        const deletedUsers: number[] = [];
+        if (Array.isArray(storedDeletedUsers)) {
+            storedDeletedUsers.forEach((id: unknown) => {
+                if (typeof id === 'number') {
+                    deletedUsers.push(id);
+                }
+            });
+        }
+
+        return deletedUsers;
+    }
+
     // Extract valid user from unknown Array.
     extractValidUser(usersUnknown: unknown): Array<User> {
         const users: Array<User> = [];
         if (Array.isArray(usersUnknown)) {
             usersUnknown.forEach((user: unknown) => {
                 if (isValidUser(user)) {
-                    users.push(
-                        new User(
-                            user.id,
-                            user.firstName,
-                            user.lastName,
-                            user.age,
-                            user.email,
-                            user.phone,
-                            user.gender
-                        )
-                    );
+                    if (
+                        typeof user.id === 'string' ||
+                        (typeof user.id === 'number' &&
+                            !this.#deletedUsers.includes(user.id))
+                    ) {
+                        users.push(
+                            new User(
+                                user.id,
+                                user.firstName,
+                                user.lastName,
+                                user.age,
+                                user.email,
+                                user.phone,
+                                user.gender
+                            )
+                        );
+                    }
                 }
             });
         }
@@ -93,5 +131,23 @@ export default class Store {
         this.#renderUsers(this.#users);
 
         this.saveLocalUsers();
+    }
+
+    deleteUser(id: string | number) {
+        this.#users = this.#users.filter((user) => user.id !== id);
+
+        this.#renderUsers(this.#users);
+
+        if (typeof id === 'string') {
+            this.saveLocalUsers();
+        } else {
+            if (!this.#deletedUsers.includes(id)) {
+                this.#deletedUsers.push(id);
+                localStorage.setItem(
+                    this.#deletedUsersKey,
+                    JSON.stringify(this.#deletedUsers)
+                );
+            }
+        }
     }
 }
