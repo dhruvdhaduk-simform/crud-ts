@@ -11,7 +11,7 @@ export default class User {
 }
 
 // Type predicate to validate User
-export function isUser(user: unknown): user is User {
+export function isValidUser(user: unknown): user is User {
     return (
         typeof user === 'object' &&
         (typeof (user as User).id === 'string' ||

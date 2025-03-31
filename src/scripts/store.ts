@@ -1,4 +1,4 @@
-import User, { isUser } from './user.ts';
+import User, { isValidUser } from './user.ts';
 
 const USERS_URL = 'https://dummyjson.com/users';
 
@@ -35,7 +35,7 @@ export default class Store {
         const users: User[] = [];
         if (Array.isArray(localUsers)) {
             localUsers.forEach((user: unknown) => {
-                if (isUser(user)) {
+                if (isValidUser(user)) {
                     users.push(
                         new User(
                             user.id,
@@ -63,7 +63,7 @@ export default class Store {
 
         if (Array.isArray(data?.users)) {
             data.users.forEach((user: unknown) => {
-                if (isUser(user)) {
+                if (isValidUser(user)) {
                     users.push(
                         new User(
                             user.id,
