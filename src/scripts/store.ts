@@ -150,4 +150,16 @@ export default class Store {
             }
         }
     }
+
+    updateUser(newUser: User) {
+        this.#users = this.#users.map((user) => {
+            return user.id === newUser.id ? newUser : user;
+        });
+
+        this.#renderUsers(this.#users);
+
+        if (typeof newUser.id === 'string') {
+            this.saveLocalUsers();
+        }
+    }
 }
