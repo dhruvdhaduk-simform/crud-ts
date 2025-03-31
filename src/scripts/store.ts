@@ -3,11 +3,14 @@ import User, { isValidUser } from './user.ts';
 const USERS_URL = 'https://dummyjson.com/users';
 
 export default class Store {
-    #users: User[];
+    #users: Array<User>;
     #localUsersKey: string;
-    #renderUsers: (users: User[]) => void;
+    #renderUsers: (users: Array<User>) => void;
 
-    constructor(localUsersKey: string, renderUsers: (users: User[]) => void) {
+    constructor(
+        localUsersKey: string,
+        renderUsers: (users: Array<User>) => void
+    ) {
         this.#localUsersKey = localUsersKey;
         this.#renderUsers = renderUsers;
 
@@ -21,7 +24,7 @@ export default class Store {
     }
 
     // Fetch locally stored users.
-    parseLocalUsers(): User[] {
+    parseLocalUsers(): Array<User> {
         let localUsers: unknown;
         try {
             const localUsersStr = localStorage.getItem(this.#localUsersKey);
@@ -32,7 +35,7 @@ export default class Store {
             console.log(err);
         }
 
-        const users: User[] = [];
+        const users: Array<User> = [];
         if (Array.isArray(localUsers)) {
             localUsers.forEach((user: unknown) => {
                 if (isValidUser(user)) {
@@ -55,11 +58,11 @@ export default class Store {
     }
 
     // Fetch users from API.
-    async fetchUsers(): Promise<User[]> {
+    async fetchUsers(): Promise<Array<User>> {
         const response = await fetch(USERS_URL);
         const data: { users: unknown } = await response.json();
 
-        const users: User[] = [];
+        const users: Array<User> = [];
 
         if (Array.isArray(data?.users)) {
             data.users.forEach((user: unknown) => {

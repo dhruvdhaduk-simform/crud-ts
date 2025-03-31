@@ -27,7 +27,7 @@ export default class View {
     }
 
     // Render users in table from User[] array.
-    renderUsers(users: User[]) {
+    renderUsers(users: Array<User>) {
         // Array to hold rows corresponding to each User.
         const userRows: HTMLTableRowElement[] = [];
 
