@@ -21,6 +21,8 @@ localStorage.setItem(
 );
 
 // Initialize the view to start fetching and rendering the data.
-new View(LOCAL_USERS_KEY, {
+const viewConfig = {
     usersListId: 'users-list',
-});
+};
+
+new View(LOCAL_USERS_KEY, viewConfig);
