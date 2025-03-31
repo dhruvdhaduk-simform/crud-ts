@@ -149,6 +149,7 @@ export default class View {
 
         editBtn.textContent = 'Edit';
         editBtn.classList.add('edit-btn');
+        editBtn.value = 'edit';
         deleteBtn.textContent = 'Delete';
         deleteBtn.classList.add('delete-btn');
 
@@ -172,6 +173,68 @@ export default class View {
 
         deleteBtn.addEventListener('click', () => {
             this.#store.deleteUser(user.id);
+        });
+
+        const editableItems = [
+            firstNameCell,
+            lastNameCell,
+            ageCell,
+            emailCell,
+            phoneCell,
+            genderCell,
+        ];
+
+        editBtn.addEventListener('click', () => {
+            if (editBtn.value === 'edit') {
+                // Turn on the edit mode.
+                editableItems.forEach((item) => {
+                    item.contentEditable = 'true';
+                });
+
+                editBtn.textContent = 'Save';
+                editBtn.value = 'save';
+            } else {
+                // Turn off the edit mode.
+                editableItems.forEach((item) => {
+                    item.contentEditable = 'false';
+                });
+
+                // Extract and validate the new age.
+                let newAge: number;
+                const newAgeInput = ageCell.textContent;
+                if (newAgeInput === null || newAgeInput.trim() === '') {
+                    newAge = user.age;
+                } else if (isFinite(Number(newAgeInput))) {
+                    newAge = Number(newAgeInput);
+                } else {
+                    newAge = user.age;
+                }
+
+                // Extract and validate the new gender.
+                let newGender: 'male' | 'female';
+                const newGenderInput = genderCell.textContent
+                    ?.trim()
+                    .toLowerCase();
+                if (newGenderInput === 'male') newGender = 'male';
+                else if (newGenderInput === 'female') newGender = 'female';
+                else newGender = user.gender;
+
+                // Create object of updated user.
+                const updatedUser = new User(
+                    user.id,
+                    firstNameCell.textContent ?? user.firstName,
+                    lastNameCell.textContent ?? user.lastName,
+                    newAge,
+                    emailCell.textContent ?? user.email,
+                    phoneCell.textContent ?? user.phone,
+                    newGender
+                );
+
+                this.#store.updateUser(updatedUser);
+
+                editBtn.textContent = 'Edit';
+                editBtn.value = 'edit';
+            }
         });
 
         return userRow;
