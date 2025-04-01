@@ -218,7 +218,13 @@ export default class View {
         );
 
         deleteBtn.addEventListener('click', () => {
-            this.#store.deleteUser(user.id);
+            if (
+                window.confirm(
+                    `Are you sure you want to delete ${user.firstName}`
+                )
+            ) {
+                this.#store.deleteUser(user.id);
+            }
         });
 
         const editableItems = [
