@@ -240,11 +240,6 @@ export default class View {
                 editBtn.textContent = 'Save';
                 editBtn.value = 'save';
             } else {
-                // Turn off the edit mode.
-                editableItems.forEach((item) => {
-                    item.contentEditable = 'false';
-                });
-
                 // Extract and validate the new age.
                 let newAge: number;
                 const newAgeInput = ageCell.textContent;
@@ -276,7 +271,34 @@ export default class View {
                     newGender
                 );
 
+                updatedUser.firstName = updatedUser.firstName.trim();
+                updatedUser.lastName = updatedUser.lastName.trim();
+                updatedUser.email = updatedUser.email.trim();
+                updatedUser.phone = updatedUser.phone.trim();
+
+                if (
+                    [
+                        updatedUser.firstName,
+                        updatedUser.lastName,
+                        updatedUser.email,
+                        updatedUser.phone,
+                    ].includes('')
+                ) {
+                    alert('All fields are required.');
+                    return;
+                }
+
+                if (updatedUser.age < 0) {
+                    alert('Age cannot be negative.');
+                    return;
+                }
+
                 this.#store.updateUser(updatedUser);
+
+                // Turn off the edit mode.
+                editableItems.forEach((item) => {
+                    item.contentEditable = 'false';
+                });
 
                 editBtn.textContent = 'Edit';
                 editBtn.value = 'edit';
@@ -287,7 +309,7 @@ export default class View {
     }
 
     // Render users in table from User[] array.
-    renderUsers(users: Array<User>) {
+    renderUsers(users: Array<User>, noCacheUserId?: string | number) {
         // Array to hold rows corresponding to each User.
         const rowsToRender: HTMLTableRowElement[] = [];
         const rowsRendered: NodeListOf<HTMLTableRowElement> =
@@ -299,11 +321,13 @@ export default class View {
         });
 
         users.forEach((user) => {
-            // Check if there is already a Row for user.
-            const cachedRow = existingRows.get(`${user.id}`);
-            if (cachedRow) {
-                rowsToRender.push(cachedRow);
-                return;
+            if (noCacheUserId !== user.id) {
+                // Check if there is already a Row for user.
+                const cachedRow = existingRows.get(`${user.id}`);
+                if (cachedRow) {
+                    rowsToRender.push(cachedRow);
+                    return;
+                }
             }
 
             // Create a new raw for user with its child elements.

@@ -8,7 +8,7 @@ export default class Store {
     #deletedUsersKey: string;
     #deletedUsers: number[];
 
-    #renderUsers: (users: Array<User>) => void;
+    #renderUsers: (users: Array<User>, noCacheUserId?: string | number) => void;
 
     constructor(
         localUsersKey: string,
@@ -156,7 +156,7 @@ export default class Store {
             return user.id === newUser.id ? newUser : user;
         });
 
-        this.#renderUsers(this.#users);
+        this.#renderUsers(this.#users, newUser.id);
 
         if (typeof newUser.id === 'string') {
             this.saveLocalUsers();
