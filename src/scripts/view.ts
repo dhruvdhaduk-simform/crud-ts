@@ -299,6 +299,11 @@ export default class View {
                     return;
                 }
 
+                if (!this.isValidEmail(updatedUser.email)) {
+                    alert('Email is invalid');
+                    return;
+                }
+
                 this.#store.updateUser(updatedUser);
 
                 // Turn off the edit mode.
@@ -365,5 +370,12 @@ export default class View {
         }
 
         this.#store.sort(field, order);
+    }
+
+    isValidEmail(email: string): boolean {
+        const input = document.createElement('input');
+        input.type = 'email';
+        input.value = email;
+        return input.checkValidity();
     }
 }
