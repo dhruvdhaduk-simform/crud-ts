@@ -304,6 +304,11 @@ export default class View {
                     return;
                 }
 
+                if (updatedUser.phone.length > 16) {
+                    alert('Phone number is not valid.');
+                    return;
+                }
+
                 this.#store.updateUser(updatedUser);
 
                 // Turn off the edit mode.
