@@ -6,7 +6,7 @@ export default class Store {
     #users: Array<User>;
     #localUsersKey: string;
     #deletedUsersKey: string;
-    #deletedUsers: number[];
+    #deletedUsers: Array<number>;
 
     #renderUsers: (users: Array<User>, noCacheUserId?: string | number) => void;
 
@@ -30,7 +30,7 @@ export default class Store {
         });
     }
 
-    getDeletedUsers(): number[] {
+    getDeletedUsers(): Array<number> {
         let storedDeletedUsers: unknown;
         try {
             const storedDeletedUsersStr = localStorage.getItem(
@@ -43,7 +43,7 @@ export default class Store {
             console.log(err);
         }
 
-        const deletedUsers: number[] = [];
+        const deletedUsers: Array<number> = [];
         if (Array.isArray(storedDeletedUsers)) {
             storedDeletedUsers.forEach((id: unknown) => {
                 if (typeof id === 'number') {
