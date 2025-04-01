@@ -121,12 +121,21 @@ export default class View {
         }
 
         // Store the form data with correct type.
-        const firstName: string = firstNameInput;
-        const lastName: string = lastNameInput;
+        const firstName: string = firstNameInput.trim();
+        const lastName: string = lastNameInput.trim();
         const age: number = Number(ageInput);
-        const email: string = emailInput;
-        const phone: string = phoneInput;
+        const email: string = emailInput.trim();
+        const phone: string = phoneInput.trim();
         const gender: 'male' | 'female' = genderInput;
+
+        if ([firstName, lastName, email, phone].includes('')) {
+            alert('All input fields are required.');
+            return;
+        }
+        if (age < 0) {
+            alert('Age cannot be negative');
+            return;
+        }
 
         this.#store.addUser({
             firstName,
