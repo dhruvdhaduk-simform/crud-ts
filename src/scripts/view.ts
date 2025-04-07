@@ -83,6 +83,34 @@ export default class View {
             deletedUsersKey,
             this.renderUsers.bind(this)
         );
+
+        this.attachFormValidationHandlers();
+    }
+
+    attachFormValidationHandlers() {
+        const firstNameInput = this.#userForm['first-name'];
+        const lastNameInput = this.#userForm['last-name'];
+        if (
+            firstNameInput instanceof HTMLInputElement &&
+            lastNameInput instanceof HTMLInputElement
+        ) {
+            [firstNameInput, lastNameInput].forEach((input) => {
+                input.addEventListener('input', () => {
+                    input.value =
+                        input.value.match(/[a-zA-Z]/g)?.join('') || '';
+                });
+            });
+        }
+
+        const phoneInput = this.#userForm['phone'];
+        if (phoneInput instanceof HTMLInputElement) {
+            phoneInput.addEventListener('input', () => {
+                phoneInput.value =
+                    phoneInput.value.match(/[\d\s+()-]/g)?.join('') || '';
+
+                phoneInput.value = phoneInput.value.replace(/\s+/g, ' ');
+            });
+        }
     }
 
     // Handle Add/Update User form submit.
