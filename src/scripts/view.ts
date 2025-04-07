@@ -311,6 +311,8 @@ export default class View {
                     editableItems[item].contentEditable = 'true';
                 }
 
+                editableItems.firstNameCell.focus();
+
                 editBtn.textContent = 'Save';
                 editBtn.value = 'save';
             } else {
