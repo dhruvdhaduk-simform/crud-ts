@@ -3,10 +3,10 @@
 
     width: 100%;
     max-width: 23rem;
-    background-color: black;
-    border: 1px solid white;
+    background-color: white;
+    border: 1px solid #ccc;
     border-radius: 0.5rem;
-    box-shadow: 0 0 15px 1px white;
+    box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.2);
 }
 
 body:not(:has(#user-form-popup:popover-open)) {
@@ -19,8 +19,8 @@ body:has(#user-form-popup:popover-open) {
 }
 
 .user-form-container {
-    background-color: black;
-    color: white;
+    background-color: white;
+    color: black;
 
     padding: 1rem;
 }
@@ -43,6 +43,7 @@ body:has(#user-form-popup:popover-open) {
 }
 .user-form .form-item label {
     font-size: 0.8rem;
+    color: black;
 }
 
 .user-form .form-item.gender {
@@ -51,18 +52,24 @@ body:has(#user-form-popup:popover-open) {
 
 .user-form .submit-btn {
     font-size: 1rem;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
 }
 
 .user-form input[type='text'],
 .user-form input[type='number'],
 .user-form input[type='email'],
 .user-form input[type='tel'] {
-    background-color: black;
-    color: white;
+    background-color: white;
+    color: black;
     height: 2rem;
     font-size: 0.95rem;
     border-radius: 0.5rem;
-    border: 1px solid #3b3b3b;
+    border: 1px solid #ccc;
     padding-left: 0.5rem;
 }
 

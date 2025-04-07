@@ -9,10 +9,10 @@ table.users {
     --table-margin-top: 3.75rem;
     --table-border-spacing: 0 1rem;
     --table-items-padding: 1rem;
-    --table-items-border: 1.4px solid #ebedf2;
+    --table-items-border: 1.4px solid #d0d7de;
     --table-items-border-radius: 0.625rem;
     --table-btns-font-size: 0.9rem;
-    --table-edit-btn-bg-color: blue;
+    --table-edit-btn-bg-color: #007bff;
     --table-edit-btn-fg-color: white;
     --table-delete-btn-bg-color: #b30000;
     --table-delete-btn-fg-color: white;
