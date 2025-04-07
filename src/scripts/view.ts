@@ -19,6 +19,7 @@ export default class View {
             sortBtnId: string;
             sortFieldSelectId: string;
             sortOrderSelectId: string;
+            addUserBtnId: string;
         }
     ) {
         this.#editUser = null;
@@ -44,6 +45,23 @@ export default class View {
         this.#userForm.addEventListener('submit', (e) => {
             e.preventDefault();
             this.handleUserFormSubmit();
+        });
+
+        const addUserBtn = document.querySelector(
+            `#${elementIds.addUserBtnId}`
+        );
+        if (!(addUserBtn instanceof HTMLButtonElement)) {
+            const msg = "Couldn't find the Add User Button on this page.";
+            alert(msg);
+            throw new ReferenceError(msg);
+        }
+
+        addUserBtn.addEventListener('click', () => {
+            if (this.#editUser) {
+                this.setUserFormHeading('Add User');
+                this.#userForm.reset();
+                this.#editUser = null;
+            }
         });
 
         // Select sort button.

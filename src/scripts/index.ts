@@ -11,6 +11,7 @@ const viewConfig = {
     sortBtnId: 'sort-btn',
     sortFieldSelectId: 'sort-field',
     sortOrderSelectId: 'sort-order',
+    addUserBtnId: 'add-user-btn',
 };
 
 new View(LOCAL_USERS_KEY, DELETED_USERS_KEY, viewConfig);
