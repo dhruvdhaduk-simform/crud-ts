@@ -111,6 +111,14 @@ export default class View {
                 phoneInput.value = phoneInput.value.replace(/\s+/g, ' ');
             });
         }
+
+        const ageInput = this.#userForm['age'];
+        if (ageInput instanceof HTMLInputElement) {
+            ageInput.addEventListener('input', () => {
+                ageInput.value =
+                    ageInput.value.match(/\d{0,2}/)?.join('') || '';
+            });
+        }
     }
 
     // Handle Add/Update User form submit.
