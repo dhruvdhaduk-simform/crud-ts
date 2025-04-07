@@ -158,6 +158,7 @@ export default class View {
                 gender,
             });
             this.#editUser = null;
+            this.setUserFormHeading('Add User');
         }
 
         this.#userForm.reset();
@@ -251,6 +252,8 @@ export default class View {
 
             this.#editUser = user;
 
+            this.setUserFormHeading('Update User');
+
             const popup = this.#userForm.closest('div[popover]');
             if (popup instanceof HTMLDivElement) {
                 popup.showPopover();
@@ -318,5 +321,12 @@ export default class View {
         input.type = 'email';
         input.value = email;
         return input.checkValidity();
+    }
+
+    setUserFormHeading(heading: string) {
+        const userFormHeading = document.querySelector('#user-form-heading');
+        if (userFormHeading) {
+            userFormHeading.textContent = heading;
+        }
     }
 }
