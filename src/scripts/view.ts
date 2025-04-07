@@ -227,98 +227,13 @@ export default class View {
             }
         });
 
-        const editableItems = [
+        this.attachEditHandler(editBtn, user, {
             firstNameCell,
             lastNameCell,
             ageCell,
             emailCell,
             phoneCell,
             genderCell,
-        ];
-
-        editBtn.addEventListener('click', () => {
-            if (editBtn.value === 'edit') {
-                // Turn on the edit mode.
-                editableItems.forEach((item) => {
-                    item.contentEditable = 'true';
-                });
-
-                editBtn.textContent = 'Save';
-                editBtn.value = 'save';
-            } else {
-                // Extract and validate the new age.
-                let newAge: number;
-                const newAgeInput = ageCell.textContent;
-                if (newAgeInput === null || newAgeInput.trim() === '') {
-                    newAge = user.age;
-                } else if (isFinite(Number(newAgeInput))) {
-                    newAge = Number(newAgeInput);
-                } else {
-                    newAge = user.age;
-                }
-
-                // Extract and validate the new gender.
-                let newGender: 'male' | 'female';
-                const newGenderInput = genderCell.textContent
-                    ?.trim()
-                    .toLowerCase();
-                if (newGenderInput === 'male') newGender = 'male';
-                else if (newGenderInput === 'female') newGender = 'female';
-                else newGender = user.gender;
-
-                // Create object of updated user.
-                const updatedUser = new User(
-                    user.id,
-                    firstNameCell.textContent ?? user.firstName,
-                    lastNameCell.textContent ?? user.lastName,
-                    newAge,
-                    emailCell.textContent ?? user.email,
-                    phoneCell.textContent ?? user.phone,
-                    newGender
-                );
-
-                updatedUser.firstName = updatedUser.firstName.trim();
-                updatedUser.lastName = updatedUser.lastName.trim();
-                updatedUser.email = updatedUser.email.trim();
-                updatedUser.phone = updatedUser.phone.trim();
-
-                if (
-                    [
-                        updatedUser.firstName,
-                        updatedUser.lastName,
-                        updatedUser.email,
-                        updatedUser.phone,
-                    ].includes('')
-                ) {
-                    alert('All fields are required.');
-                    return;
-                }
-
-                if (updatedUser.age < 0) {
-                    alert('Age cannot be negative.');
-                    return;
-                }
-
-                if (!this.isValidEmail(updatedUser.email)) {
-                    alert('Email is invalid');
-                    return;
-                }
-
-                if (updatedUser.phone.length > 16) {
-                    alert('Phone number is not valid.');
-                    return;
-                }
-
-                this.#store.updateUser(updatedUser);
-
-                // Turn off the edit mode.
-                editableItems.forEach((item) => {
-                    item.contentEditable = 'false';
-                });
-
-                editBtn.textContent = 'Edit';
-                editBtn.value = 'edit';
-            }
         });
 
         return userRow;
@@ -382,5 +297,96 @@ export default class View {
         input.type = 'email';
         input.value = email;
         return input.checkValidity();
+    }
+
+    attachEditHandler(
+        editBtn: HTMLButtonElement,
+        user: User,
+        editableItems: Record<string, HTMLTableCellElement>
+    ) {
+        editBtn.addEventListener('click', () => {
+            if (editBtn.value === 'edit') {
+                // Turn on the edit mode.
+                for (const item in editableItems) {
+                    editableItems[item].contentEditable = 'true';
+                }
+
+                editBtn.textContent = 'Save';
+                editBtn.value = 'save';
+            } else {
+                // Extract and validate the new age.
+                let newAge: number;
+                const newAgeInput = editableItems.ageCell.textContent;
+                if (newAgeInput === null || newAgeInput.trim() === '') {
+                    newAge = user.age;
+                } else if (isFinite(Number(newAgeInput))) {
+                    newAge = Number(newAgeInput);
+                } else {
+                    newAge = user.age;
+                }
+
+                // Extract and validate the new gender.
+                let newGender: 'male' | 'female';
+                const newGenderInput = editableItems.genderCell.textContent
+                    ?.trim()
+                    .toLowerCase();
+                if (newGenderInput === 'male') newGender = 'male';
+                else if (newGenderInput === 'female') newGender = 'female';
+                else newGender = user.gender;
+
+                // Create object of updated user.
+                const updatedUser = new User(
+                    user.id,
+                    editableItems.firstNameCell.textContent ?? user.firstName,
+                    editableItems.lastNameCell.textContent ?? user.lastName,
+                    newAge,
+                    editableItems.emailCell.textContent ?? user.email,
+                    editableItems.phoneCell.textContent ?? user.phone,
+                    newGender
+                );
+
+                updatedUser.firstName = updatedUser.firstName.trim();
+                updatedUser.lastName = updatedUser.lastName.trim();
+                updatedUser.email = updatedUser.email.trim();
+                updatedUser.phone = updatedUser.phone.trim();
+
+                if (
+                    [
+                        updatedUser.firstName,
+                        updatedUser.lastName,
+                        updatedUser.email,
+                        updatedUser.phone,
+                    ].includes('')
+                ) {
+                    alert('All fields are required.');
+                    return;
+                }
+
+                if (updatedUser.age < 0) {
+                    alert('Age cannot be negative.');
+                    return;
+                }
+
+                if (!this.isValidEmail(updatedUser.email)) {
+                    alert('Email is invalid');
+                    return;
+                }
+
+                if (updatedUser.phone.length > 16) {
+                    alert('Phone number is not valid.');
+                    return;
+                }
+
+                this.#store.updateUser(updatedUser);
+
+                // Turn off the edit mode.
+                for (const item in editableItems) {
+                    editableItems[item].contentEditable = 'false';
+                }
+
+                editBtn.textContent = 'Edit';
+                editBtn.value = 'edit';
+            }
+        });
     }
 }
