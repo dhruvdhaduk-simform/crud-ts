@@ -7,7 +7,7 @@ const DELETED_USERS_KEY = 'DELETED_USERS_KEY';
 // Initialize the view to start fetching and rendering the data.
 const viewConfig = {
     usersListId: 'users-list',
-    addUserFormId: 'add-user-form',
+    userFormId: 'user-form',
     sortBtnId: 'sort-btn',
     sortFieldSelectId: 'sort-field',
     sortOrderSelectId: 'sort-order',

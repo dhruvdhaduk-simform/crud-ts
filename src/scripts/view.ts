@@ -4,7 +4,7 @@ import Store from './store.ts';
 export default class View {
     #store: Store;
     #usersList: HTMLTableSectionElement;
-    #addUserForm: HTMLFormElement;
+    #userForm: HTMLFormElement;
     #sortBtn: HTMLButtonElement;
     #sortFieldSelect: HTMLSelectElement;
     #sortOrderSelect: HTMLSelectElement;
@@ -15,7 +15,7 @@ export default class View {
         deletedUsersKey: string,
         elementIds: {
             usersListId: string;
-            addUserFormId: string;
+            userFormId: string;
             sortBtnId: string;
             sortFieldSelectId: string;
             sortOrderSelectId: string;
@@ -32,20 +32,18 @@ export default class View {
         }
         this.#usersList = usersList;
 
-        // Select the form element for Add User.
-        const addUserForm = document.querySelector(
-            `#${elementIds.addUserFormId}`
-        );
-        if (!(addUserForm instanceof HTMLFormElement)) {
-            const msg = "Couldn't find the Add User Form on this page.";
+        // Select the form element for User Form.
+        const userForm = document.querySelector(`#${elementIds.userFormId}`);
+        if (!(userForm instanceof HTMLFormElement)) {
+            const msg = "Couldn't find the User Form on this page.";
             alert(msg);
             throw new ReferenceError(msg);
         }
-        this.#addUserForm = addUserForm;
+        this.#userForm = userForm;
 
-        this.#addUserForm.addEventListener('submit', (e) => {
+        this.#userForm.addEventListener('submit', (e) => {
             e.preventDefault();
-            this.handleAddUserFormSubmit();
+            this.handleUserFormSubmit();
         });
 
         // Select sort button.
@@ -87,15 +85,15 @@ export default class View {
         );
     }
 
-    // Handle Add User form submit.
-    handleAddUserFormSubmit() {
+    // Handle Add/Update User form submit.
+    handleUserFormSubmit() {
         // Extract the form data.
-        const firstNameInput = this.#addUserForm['first-name'].value;
-        const lastNameInput = this.#addUserForm['last-name'].value;
-        const ageInput = this.#addUserForm['age'].value;
-        const emailInput = this.#addUserForm['email'].value;
-        const phoneInput = this.#addUserForm['phone'].value;
-        const genderInput = this.#addUserForm['gender'].value;
+        const firstNameInput = this.#userForm['first-name'].value;
+        const lastNameInput = this.#userForm['last-name'].value;
+        const ageInput = this.#userForm['age'].value;
+        const emailInput = this.#userForm['email'].value;
+        const phoneInput = this.#userForm['phone'].value;
+        const genderInput = this.#userForm['gender'].value;
 
         // Validate the form data.
         if (typeof firstNameInput !== 'string') {
@@ -162,10 +160,10 @@ export default class View {
             this.#editUser = null;
         }
 
-        this.#addUserForm.reset();
+        this.#userForm.reset();
 
         // Close the Form Popup.
-        const popup = this.#addUserForm.closest('div[popover]');
+        const popup = this.#userForm.closest('div[popover]');
         if (popup instanceof HTMLDivElement) {
             popup.hidePopover();
         }
@@ -244,16 +242,16 @@ export default class View {
         });
 
         editBtn.addEventListener('click', () => {
-            this.#addUserForm['first-name'].value = user.firstName;
-            this.#addUserForm['last-name'].value = user.lastName;
-            this.#addUserForm['age'].value = user.age;
-            this.#addUserForm['email'].value = user.email;
-            this.#addUserForm['phone'].value = user.phone;
-            this.#addUserForm['gender'].value = user.gender;
+            this.#userForm['first-name'].value = user.firstName;
+            this.#userForm['last-name'].value = user.lastName;
+            this.#userForm['age'].value = user.age;
+            this.#userForm['email'].value = user.email;
+            this.#userForm['phone'].value = user.phone;
+            this.#userForm['gender'].value = user.gender;
 
             this.#editUser = user;
 
-            const popup = this.#addUserForm.closest('div[popover]');
+            const popup = this.#userForm.closest('div[popover]');
             if (popup instanceof HTMLDivElement) {
                 popup.showPopover();
             }

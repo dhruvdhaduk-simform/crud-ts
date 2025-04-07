@@ -1,4 +1,4 @@
-#add-user-popup {
+#user-form-popup {
     margin: auto;
 
     width: 100%;
@@ -9,54 +9,54 @@
     box-shadow: 0 0 15px 1px white;
 }
 
-body:not(:has(#add-user-popup:popover-open)) {
+body:not(:has(#user-form-popup:popover-open)) {
     transition-duration: 300ms;
 }
 
-body:has(#add-user-popup:popover-open) {
+body:has(#user-form-popup:popover-open) {
     filter: blur(5px);
     transition-duration: 300ms;
 }
 
-.add-user-form-container {
+.user-form-container {
     background-color: black;
     color: white;
 
     padding: 1rem;
 }
 
-.add-user-form-container > h2 {
+.user-form-container > h2 {
     text-align: center;
     padding-bottom: 1.5rem;
 }
 
-.add-user-form {
+.user-form {
     display: flex;
     flex-direction: column;
     gap: 1rem;
 }
 
-.add-user-form .form-item {
+.user-form .form-item {
     display: flex;
     flex-direction: column;
     gap: 0.25rem;
 }
-.add-user-form .form-item label {
+.user-form .form-item label {
     font-size: 0.8rem;
 }
 
-.add-user-form .form-item.gender {
+.user-form .form-item.gender {
     flex-direction: row;
 }
 
-.add-user-form .submit-btn {
+.user-form .submit-btn {
     font-size: 1rem;
 }
 
-.add-user-form input[type='text'],
-.add-user-form input[type='number'],
-.add-user-form input[type='email'],
-.add-user-form input[type='tel'] {
+.user-form input[type='text'],
+.user-form input[type='number'],
+.user-form input[type='email'],
+.user-form input[type='tel'] {
     background-color: black;
     color: white;
     height: 2rem;
@@ -66,6 +66,6 @@ body:has(#add-user-popup:popover-open) {
     padding-left: 0.5rem;
 }
 
-.add-user-form input[type='radio'] {
+.user-form input[type='radio'] {
     cursor: pointer;
 }

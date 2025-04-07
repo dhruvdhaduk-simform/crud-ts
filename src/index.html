@@ -42,7 +42,7 @@
         <link rel="stylesheet" href="styles/index.css" />
         <link rel="stylesheet" href="styles/table.css" />
         <link rel="stylesheet" href="styles/control-buttons.css" />
-        <link rel="stylesheet" href="styles/add-user-form.css" />
+        <link rel="stylesheet" href="styles/user-form.css" />
 
         <script src="scripts/index.ts" type="module"></script>
     </head>
@@ -77,18 +77,18 @@
             <!-- Show the popup to Add User. -->
             <button
                 class="add-user-btn"
-                popovertarget="add-user-popup"
+                popovertarget="user-form-popup"
                 popovertargetaction="show"
             >
                 Add User
             </button>
         </div>
 
-        <!-- Add User Form Popup -->
-        <div id="add-user-popup" popover="auto">
-            <div class="add-user-form-container">
+        <!-- Add/Update User Form Popup -->
+        <div id="user-form-popup" popover="auto">
+            <div class="user-form-container">
                 <h2>Add User</h2>
-                <form id="add-user-form" class="add-user-form">
+                <form id="user-form" class="user-form">
                     <div class="form-item">
                         <label for="first-name">First Name</label>
                         <input
