@@ -8,6 +8,7 @@ export default class View {
     #sortBtn: HTMLButtonElement;
     #sortFieldSelect: HTMLSelectElement;
     #sortOrderSelect: HTMLSelectElement;
+    #editUser: User | null;
 
     constructor(
         localUsersKey: string,
@@ -20,6 +21,8 @@ export default class View {
             sortOrderSelectId: string;
         }
     ) {
+        this.#editUser = null;
+
         // Select the body of users table.
         const usersList = document.querySelector(`#${elementIds.usersListId}`);
         if (!(usersList instanceof HTMLTableSectionElement)) {
@@ -137,14 +140,27 @@ export default class View {
             return;
         }
 
-        this.#store.addUser({
-            firstName,
-            lastName,
-            age,
-            email,
-            phone,
-            gender,
-        });
+        if (!this.#editUser) {
+            this.#store.addUser({
+                firstName,
+                lastName,
+                age,
+                email,
+                phone,
+                gender,
+            });
+        } else {
+            this.#store.updateUser({
+                id: this.#editUser.id,
+                firstName,
+                lastName,
+                age,
+                email,
+                phone,
+                gender,
+            });
+            this.#editUser = null;
+        }
 
         this.#addUserForm.reset();
 
@@ -227,13 +243,20 @@ export default class View {
             }
         });
 
-        this.attachEditHandler(editBtn, user, {
-            firstNameCell,
-            lastNameCell,
-            ageCell,
-            emailCell,
-            phoneCell,
-            genderCell,
+        editBtn.addEventListener('click', () => {
+            this.#addUserForm['first-name'].value = user.firstName;
+            this.#addUserForm['last-name'].value = user.lastName;
+            this.#addUserForm['age'].value = user.age;
+            this.#addUserForm['email'].value = user.email;
+            this.#addUserForm['phone'].value = user.phone;
+            this.#addUserForm['gender'].value = user.gender;
+
+            this.#editUser = user;
+
+            const popup = this.#addUserForm.closest('div[popover]');
+            if (popup instanceof HTMLDivElement) {
+                popup.showPopover();
+            }
         });
 
         return userRow;
@@ -297,98 +320,5 @@ export default class View {
         input.type = 'email';
         input.value = email;
         return input.checkValidity();
-    }
-
-    attachEditHandler(
-        editBtn: HTMLButtonElement,
-        user: User,
-        editableItems: Record<string, HTMLTableCellElement>
-    ) {
-        editBtn.addEventListener('click', () => {
-            if (editBtn.value === 'edit') {
-                // Turn on the edit mode.
-                for (const item in editableItems) {
-                    editableItems[item].contentEditable = 'true';
-                }
-
-                editableItems.firstNameCell.focus();
-
-                editBtn.textContent = 'Save';
-                editBtn.value = 'save';
-            } else {
-                // Extract and validate the new age.
-                let newAge: number;
-                const newAgeInput = editableItems.ageCell.textContent;
-                if (newAgeInput === null || newAgeInput.trim() === '') {
-                    newAge = user.age;
-                } else if (isFinite(Number(newAgeInput))) {
-                    newAge = Number(newAgeInput);
-                } else {
-                    newAge = user.age;
-                }
-
-                // Extract and validate the new gender.
-                let newGender: 'male' | 'female';
-                const newGenderInput = editableItems.genderCell.textContent
-                    ?.trim()
-                    .toLowerCase();
-                if (newGenderInput === 'male') newGender = 'male';
-                else if (newGenderInput === 'female') newGender = 'female';
-                else newGender = user.gender;
-
-                // Create object of updated user.
-                const updatedUser = new User(
-                    user.id,
-                    editableItems.firstNameCell.textContent ?? user.firstName,
-                    editableItems.lastNameCell.textContent ?? user.lastName,
-                    newAge,
-                    editableItems.emailCell.textContent ?? user.email,
-                    editableItems.phoneCell.textContent ?? user.phone,
-                    newGender
-                );
-
-                updatedUser.firstName = updatedUser.firstName.trim();
-                updatedUser.lastName = updatedUser.lastName.trim();
-                updatedUser.email = updatedUser.email.trim();
-                updatedUser.phone = updatedUser.phone.trim();
-
-                if (
-                    [
-                        updatedUser.firstName,
-                        updatedUser.lastName,
-                        updatedUser.email,
-                        updatedUser.phone,
-                    ].includes('')
-                ) {
-                    alert('All fields are required.');
-                    return;
-                }
-
-                if (updatedUser.age < 0) {
-                    alert('Age cannot be negative.');
-                    return;
-                }
-
-                if (!this.isValidEmail(updatedUser.email)) {
-                    alert('Email is invalid');
-                    return;
-                }
-
-                if (updatedUser.phone.length > 16) {
-                    alert('Phone number is not valid.');
-                    return;
-                }
-
-                this.#store.updateUser(updatedUser);
-
-                // Turn off the edit mode.
-                for (const item in editableItems) {
-                    editableItems[item].contentEditable = 'false';
-                }
-
-                editBtn.textContent = 'Edit';
-                editBtn.value = 'edit';
-            }
-        });
     }
 }
