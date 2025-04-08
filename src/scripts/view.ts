@@ -137,6 +137,14 @@ export default class View {
                     ageInput.value.match(/\d{0,2}/)?.join('') || '';
             });
         }
+
+        const emailInput = this.#userForm['email'];
+        if (emailInput instanceof HTMLInputElement) {
+            emailInput.addEventListener('input', () => {
+                emailInput.value =
+                    emailInput.value.match(/[a-zA-Z\d-_@.]/g)?.join('') || '';
+            });
+        }
     }
 
     // Handle Add/Update User form submit.
