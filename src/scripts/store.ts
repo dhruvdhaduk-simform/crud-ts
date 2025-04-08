@@ -2,6 +2,9 @@ import User, { isValidUser } from './user.ts';
 
 const USERS_URL = 'https://dummyjson.com/users';
 
+type SortAttribute = 'firstName' | 'lastName' | 'age';
+type SortOrder = 'asc' | 'desc';
+
 export default class Store {
     #users: Array<User>;
     #localUsersKey: string;
@@ -163,7 +166,7 @@ export default class Store {
         }
     }
 
-    sort(attribute: 'firstName' | 'lastName' | 'age', order: 'asc' | 'desc') {
+    sort(attribute: SortAttribute, order: SortOrder) {
         this.#users.sort((a, b) => {
             let result = 0;
             if (attribute === 'age') {
