@@ -69,6 +69,27 @@ table.users {
     color: var(--table-delete-btn-fg-color);
 }
 
+.users tbody td.spinner {
+    border: none;
+    padding-top: 5rem;
+}
+
+.users tbody td.spinner > img {
+    width: 2.5rem;
+
+    animation: spin 750ms linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
 @media (max-width: 1150px) {
     .users tbody td:nth-last-child(2) {
         border-top-right-radius: var(--table-items-border-radius);
@@ -77,7 +98,7 @@ table.users {
     }
 
     th:nth-last-child(1),
-    td:nth-last-child(1) {
+    td:not(.spinner):nth-last-child(1) {
         display: none;
     }
 }

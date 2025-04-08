@@ -319,6 +319,8 @@ export default class View {
 
     // Render users in table from User[] array.
     renderUsers(users: Array<User>, noCacheUserId?: string | number) {
+        if (!users.length) return;
+
         // Array to hold rows corresponding to each User.
         const rowsToRender: HTMLTableRowElement[] = [];
         const rowsRendered: NodeListOf<HTMLTableRowElement> =
