@@ -330,7 +330,7 @@ export default class View {
         if (!users.length) return;
 
         // Array to hold rows corresponding to each User.
-        const rowsToRender: HTMLTableRowElement[] = [];
+        const rowsToRender: Array<HTMLTableRowElement> = [];
         const rowsRendered: NodeListOf<HTMLTableRowElement> =
             document.querySelectorAll('tr[data-id]');
         const existingRows = new Map<string, HTMLTableRowElement>();
