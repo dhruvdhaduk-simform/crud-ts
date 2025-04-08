@@ -115,7 +115,7 @@ export default class View {
             [firstNameInput, lastNameInput].forEach((input) => {
                 input.addEventListener('input', () => {
                     input.value =
-                        input.value.match(/[a-zA-Z]/g)?.join('') || '';
+                        input.value.match(/[a-zA-Z\d]/g)?.join('') || '';
                 });
             });
         }
