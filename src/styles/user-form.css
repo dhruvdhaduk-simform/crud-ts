@@ -18,6 +18,10 @@ body:has(#user-form-popup:popover-open) {
     transition-duration: 300ms;
 }
 
+body:has(#user-form-popup:popover-open) *:not([popover]):not([popover] *) {
+    pointer-events: none;
+}
+
 .user-form-container {
     background-color: white;
     color: black;
