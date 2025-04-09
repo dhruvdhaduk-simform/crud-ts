@@ -50,6 +50,11 @@ body:has(#user-form-popup:popover-open) *:not([popover]):not([popover] *) {
     color: black;
 }
 
+.user-form .form-item .input-error {
+    color: red;
+    font-size: 0.75rem;
+}
+
 .user-form .form-item.gender {
     flex-direction: row;
 }
