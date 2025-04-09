@@ -199,6 +199,10 @@ export default class View {
             alert('Age cannot be negative');
             return;
         }
+        if (phone.length < 10) {
+            alert('Phone number should at least have 10 digits.');
+            return;
+        }
 
         if (!this.#editUser) {
             this.#store.addUser({
