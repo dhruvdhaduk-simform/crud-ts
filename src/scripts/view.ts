@@ -1,5 +1,6 @@
 import User from './user.ts';
 import Store from './store.ts';
+import { FormValidator } from './formValidator.ts';
 
 export default class View {
     #store: Store;
@@ -106,45 +107,43 @@ export default class View {
     }
 
     attachFormValidationHandlers() {
-        const firstNameInput = this.#userForm['first-name'];
-        const lastNameInput = this.#userForm['last-name'];
-        if (
-            firstNameInput instanceof HTMLInputElement &&
-            lastNameInput instanceof HTMLInputElement
-        ) {
-            [firstNameInput, lastNameInput].forEach((input) => {
-                input.addEventListener('input', () => {
-                    input.value =
-                        input.value.match(/[a-zA-Z\d]/g)?.join('') || '';
-                });
+        const handleInput = (
+            inputId: string,
+            validator: (value: string) => string
+        ) => {
+            const inputElement = this.#userForm.querySelector(
+                `#${inputId}`
+            ) as HTMLInputElement;
+            inputElement.addEventListener('input', (e) => {
+                const value =
+                    e.target instanceof HTMLInputElement ? e.target.value : '';
+                const errorMessage = validator(value);
+                if (errorMessage) {
+                    FormValidator.showError(inputId, errorMessage);
+                } else {
+                    FormValidator.clearError(inputId);
+                }
             });
-        }
+        };
 
-        const phoneInput = this.#userForm['phone'];
-        if (phoneInput instanceof HTMLInputElement) {
-            phoneInput.addEventListener('input', () => {
-                phoneInput.value =
-                    phoneInput.value.match(/[\d\s+()-]/g)?.join('') || '';
+        handleInput(
+            'first-name',
+            FormValidator.validateFirstName.bind(FormValidator)
+        );
 
-                phoneInput.value = phoneInput.value.replace(/\s+/g, ' ');
-            });
-        }
+        handleInput(
+            'last-name',
+            FormValidator.validateLastName.bind(FormValidator)
+        );
 
-        const ageInput = this.#userForm['age'];
-        if (ageInput instanceof HTMLInputElement) {
-            ageInput.addEventListener('input', () => {
-                ageInput.value =
-                    ageInput.value.match(/\d{0,2}/)?.join('') || '';
-            });
-        }
+        handleInput('age', FormValidator.validateAge.bind(FormValidator));
 
-        const emailInput = this.#userForm['email'];
-        if (emailInput instanceof HTMLInputElement) {
-            emailInput.addEventListener('input', () => {
-                emailInput.value =
-                    emailInput.value.match(/[a-zA-Z\d-_@.]/g)?.join('') || '';
-            });
-        }
+        handleInput('email', FormValidator.validateEmail.bind(FormValidator));
+
+        handleInput(
+            'phone',
+            FormValidator.validatePhoneNumber.bind(FormValidator)
+        );
     }
 
     // Handle Add/Update User form submit.
@@ -191,18 +190,20 @@ export default class View {
         const phone: string = phoneInput.trim();
         const gender: 'male' | 'female' = genderInput;
 
-        if ([firstName, lastName, email, phone].includes('')) {
-            alert('All input fields are required.');
+        const firstNameError = FormValidator.validateFirstName(firstName);
+        const lastNameError = FormValidator.validateFirstName(lastName);
+        const ageError = FormValidator.validateAge(age);
+        const emailError = FormValidator.validateEmail(email);
+        const phoneError = FormValidator.validatePhoneNumber(phone);
+
+        if (
+            firstNameError ||
+            lastNameError ||
+            ageError ||
+            emailError ||
+            phoneError
+        )
             return;
-        }
-        if (age < 0) {
-            alert('Age cannot be negative');
-            return;
-        }
-        if (phone.length < 10) {
-            alert('Phone number should at least have 10 digits.');
-            return;
-        }
 
         if (!this.#editUser) {
             this.#store.addUser({

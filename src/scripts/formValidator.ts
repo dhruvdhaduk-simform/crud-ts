@@ -1,7 +1,7 @@
 const NAME_REGEX = /^[A-Za-z\s]+[A-Za-z0-9\s]*$/;
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 const PHONE_NUMBER_REGEX = [
-    /^(\+[\d]{1,3}\s?)\d{5}\s?\d{5}$/,
+    /^(\+[\d]{1,3}\s?)?\d{5}\s?\d{5}$/,
     /^(\+[\d]{1,3}\s)?\d{3}\s\d{3}\s\d{4}$/,
     /^(\+[\d]{1,3}[\s-])?\d{3}-\d{3}-\d{4}$/,
     /^(\+[\d]{1,3}\s)?\(\d{3}\)\s\d{3}\s\d{4}$/,
@@ -22,6 +22,14 @@ export class FormValidator {
         return '';
     }
 
+    static validateFirstName(firstName: string) {
+        return this.validateName(firstName, 'firstName');
+    }
+
+    static validateLastName(lastName: string) {
+        return this.validateName(lastName, 'lastName');
+    }
+
     static validateAge(age: string | number) {
         const ageNum = Number(age);
         if (isNaN(ageNum)) return 'Age is not a valid number.';
@@ -29,6 +37,8 @@ export class FormValidator {
         if (ageNum < 0) return 'Age cannot be negative.';
 
         if (ageNum > 100) return 'Age cannot be greater than 100';
+
+        return '';
     }
 
     static validateEmail(email: string) {
