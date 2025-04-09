@@ -11,7 +11,7 @@ const PHONE_NUMBER_REGEX = [
 export class FormValidator {
     static validateName(
         name: string,
-        namePart: 'firstName' | 'lastName'
+        namePart: 'First Name' | 'Last Name'
     ): string {
         name = name.trim();
         if (!name) return `Please provide a ${namePart}`;
@@ -23,11 +23,11 @@ export class FormValidator {
     }
 
     static validateFirstName(firstName: string) {
-        return this.validateName(firstName, 'firstName');
+        return this.validateName(firstName, 'First Name');
     }
 
     static validateLastName(lastName: string) {
-        return this.validateName(lastName, 'lastName');
+        return this.validateName(lastName, 'Last Name');
     }
 
     static validateAge(age: string | number) {
