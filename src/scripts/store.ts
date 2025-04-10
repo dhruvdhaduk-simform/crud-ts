@@ -2,19 +2,29 @@ import User, { isValidUser } from './user.ts';
 
 const USERS_URL = 'https://dummyjson.com/users';
 
+type SortAttribute = 'firstName' | 'lastName' | 'age';
+type SortOrder = 'asc' | 'desc';
+
 export default class Store {
     #users: Array<User>;
     #localUsersKey: string;
-    #renderUsers: (users: Array<User>) => void;
+    #deletedUsersKey: string;
+    #deletedUsers: Array<number>;
+
+    #renderUsers: (users: Array<User>, noCacheUserId?: string | number) => void;
 
     constructor(
         localUsersKey: string,
+        deletedUsersKey: string,
         renderUsers: (users: Array<User>) => void
     ) {
         this.#localUsersKey = localUsersKey;
+        this.#deletedUsersKey = deletedUsersKey;
         this.#renderUsers = renderUsers;
 
+        this.#deletedUsers = this.getDeletedUsers();
         this.#users = this.getLocalUsers();
+
         this.#renderUsers(this.#users);
 
         this.fetchUsers().then((users) => {
@@ -23,39 +33,69 @@ export default class Store {
         });
     }
 
+    getDeletedUsers(): Array<number> {
+        let storedDeletedUsers: unknown;
+        try {
+            const storedDeletedUsersStr = localStorage.getItem(
+                this.#deletedUsersKey
+            );
+            if (storedDeletedUsersStr) {
+                storedDeletedUsers = JSON.parse(storedDeletedUsersStr);
+            }
+        } catch (err) {
+            console.log(err);
+        }
+
+        const deletedUsers: Array<number> = [];
+        if (Array.isArray(storedDeletedUsers)) {
+            storedDeletedUsers.forEach((id: unknown) => {
+                if (typeof id === 'number') {
+                    deletedUsers.push(id);
+                }
+            });
+        }
+
+        return deletedUsers;
+    }
+
     // Extract valid user from unknown Array.
     extractValidUser(usersUnknown: unknown): Array<User> {
         const users: Array<User> = [];
         if (Array.isArray(usersUnknown)) {
             usersUnknown.forEach((user: unknown) => {
                 if (isValidUser(user)) {
-                    users.push(
-                        new User(
-                            user.id,
-                            user.firstName,
-                            user.lastName,
-                            user.age,
-                            user.email,
-                            user.phone,
-                            user.gender
-                        )
-                    );
+                    if (
+                        typeof user.id === 'string' ||
+                        (typeof user.id === 'number' &&
+                            !this.#deletedUsers.includes(user.id))
+                    ) {
+                        users.push(
+                            new User(
+                                user.id,
+                                user.firstName,
+                                user.lastName,
+                                user.age,
+                                user.email,
+                                user.phone,
+                                user.gender
+                            )
+                        );
+                    }
                 }
             });
         }
 
         return users;
-
     }
 
     // Fetch locally stored users.
-    getLocalUsers(): Array<User>{
+    getLocalUsers(): Array<User> {
         try {
             const localUsersStr = localStorage.getItem(this.#localUsersKey);
             const localUsers = localUsersStr ? JSON.parse(localUsersStr) : [];
             return this.extractValidUser(localUsers);
         } catch (err) {
-            console.error("Error parsing local users:", err);
+            console.error('Error parsing local users:', err);
             return [];
         }
     }
@@ -76,5 +116,69 @@ export default class Store {
                 this.#users.filter((user) => typeof user.id === 'string')
             )
         );
+    }
+
+    addUser(user: Omit<User, 'id'>) {
+        this.#users.unshift(
+            new User(
+                crypto.randomUUID(),
+                user.firstName,
+                user.lastName,
+                user.age,
+                user.email,
+                user.phone,
+                user.gender
+            )
+        );
+
+        this.#renderUsers(this.#users);
+
+        this.saveLocalUsers();
+    }
+
+    deleteUser(id: string | number) {
+        this.#users = this.#users.filter((user) => user.id !== id);
+
+        this.#renderUsers(this.#users);
+
+        if (typeof id === 'string') {
+            this.saveLocalUsers();
+        } else {
+            if (!this.#deletedUsers.includes(id)) {
+                this.#deletedUsers.push(id);
+                localStorage.setItem(
+                    this.#deletedUsersKey,
+                    JSON.stringify(this.#deletedUsers)
+                );
+            }
+        }
+    }
+
+    updateUser(newUser: User) {
+        this.#users = this.#users.map((user) => {
+            return user.id === newUser.id ? newUser : user;
+        });
+
+        this.#renderUsers(this.#users, newUser.id);
+
+        if (typeof newUser.id === 'string') {
+            this.saveLocalUsers();
+        }
+    }
+
+    sort(attribute: SortAttribute, order: SortOrder) {
+        this.#users.sort((a, b) => {
+            let result = 0;
+            if (attribute === 'age') {
+                result = a[attribute] - b[attribute];
+            } else {
+                result = a[attribute].localeCompare(b[attribute]);
+            }
+
+            if (order === 'desc') return -1 * result;
+            return result;
+        });
+
+        this.#renderUsers(this.#users);
     }
 }

@@ -1,0 +1,87 @@
+#user-form-popup {
+    margin: auto;
+
+    width: 100%;
+    max-width: 23rem;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 0.5rem;
+    box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.2);
+}
+
+body:not(:has(#user-form-popup:popover-open)) {
+    transition-duration: 300ms;
+}
+
+body:has(#user-form-popup:popover-open) {
+    filter: blur(5px);
+    transition-duration: 300ms;
+}
+
+body:has(#user-form-popup:popover-open) *:not([popover]):not([popover] *) {
+    pointer-events: none;
+}
+
+.user-form-container {
+    background-color: white;
+    color: black;
+
+    padding: 1rem;
+}
+
+.user-form-container > h2 {
+    text-align: center;
+    padding-bottom: 1.5rem;
+}
+
+.user-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.user-form .form-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+.user-form .form-item label {
+    font-size: 0.8rem;
+    color: black;
+}
+
+.user-form .form-item .input-error {
+    color: red;
+    font-size: 0.75rem;
+}
+
+.user-form .form-item.gender {
+    flex-direction: row;
+}
+
+.user-form .submit-btn {
+    font-size: 1rem;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+}
+
+.user-form input[type='text'],
+.user-form input[type='number'],
+.user-form input[type='email'],
+.user-form input[type='tel'] {
+    background-color: white;
+    color: black;
+    height: 2rem;
+    font-size: 0.95rem;
+    border-radius: 0.5rem;
+    border: 1px solid #ccc;
+    padding-left: 0.5rem;
+}
+
+.user-form input[type='radio'] {
+    cursor: pointer;
+}

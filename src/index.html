@@ -42,7 +42,7 @@
         <link rel="stylesheet" href="styles/index.css" />
         <link rel="stylesheet" href="styles/table.css" />
         <link rel="stylesheet" href="styles/control-buttons.css" />
-        <link rel="stylesheet" href="styles/add-user-form.css" />
+        <link rel="stylesheet" href="styles/user-form.css" />
 
         <script src="scripts/index.ts" type="module"></script>
     </head>
@@ -71,24 +71,25 @@
                     <option value="desc">Descending</option>
                 </select>
 
-                <button class="sort-btn">Sort</button>
+                <button id="sort-btn" class="sort-btn">Sort</button>
             </div>
 
             <!-- Show the popup to Add User. -->
             <button
+                id="add-user-btn"
                 class="add-user-btn"
-                popovertarget="add-user-popup"
+                popovertarget="user-form-popup"
                 popovertargetaction="show"
             >
                 Add User
             </button>
         </div>
 
-        <!-- Add User Form Popup -->
-        <div id="add-user-popup" popover="auto">
-            <div class="add-user-form-container">
-                <h2>Add User</h2>
-                <form id="add-user-form" class="add-user-form">
+        <!-- Add/Update User Form Popup -->
+        <div id="user-form-popup" popover="auto">
+            <div class="user-form-container">
+                <h2 id="user-form-heading">Add User</h2>
+                <form id="user-form" class="user-form">
                     <div class="form-item">
                         <label for="first-name">First Name</label>
                         <input
@@ -96,8 +97,10 @@
                             name="first-name"
                             type="text"
                             placeholder="Enter First Name"
+                            maxlength="40"
                             required
                         />
+                        <span id="first-name-error" class="input-error"></span>
                     </div>
                     <div class="form-item">
                         <label for="last-name">Last Name</label>
@@ -106,8 +109,10 @@
                             name="last-name"
                             type="text"
                             placeholder="Enter Last Name"
+                            maxlength="40"
                             required
                         />
+                        <span id="last-name-error" class="input-error"></span>
                     </div>
                     <div class="form-item">
                         <label for="age">Age</label>
@@ -118,6 +123,7 @@
                             placeholder="Enter Age"
                             required
                         />
+                        <span id="age-error" class="input-error"></span>
                     </div>
                     <div class="form-item">
                         <label for="email">Email</label>
@@ -125,9 +131,11 @@
                             id="email"
                             name="email"
                             type="email"
+                            maxlength="254"
                             placeholder="Enter Email Address"
                             required
                         />
+                        <span id="email-error" class="input-error"></span>
                     </div>
                     <div class="form-item">
                         <label for="phone">Phone</label>
@@ -136,8 +144,10 @@
                             name="phone"
                             type="tel"
                             placeholder="Enter Phone Number"
+                            maxlength="20"
                             required
                         />
+                        <span id="phone-error" class="input-error"></span>
                     </div>
                     <div class="form-item gender">
                         <input
@@ -179,7 +189,13 @@
                     </tr>
                 </thead>
 
-                <tbody id="users-list"></tbody>
+                <tbody id="users-list">
+                    <tr>
+                        <td class="spinner" colspan="8">
+                            <img src="assets/icons/spinner.svg" alt="" />
+                        </td>
+                    </tr>
+                </tbody>
             </table>
         </div>
     </body>
